@@ -1,31 +1,34 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Dictionary;
 
 public class House{
 
     public static String[] candyList = {"Twix","Skittles","Snickers","Almond Joy"};
 
-    private String isDecorated;
-    private ArrayList<String> possibleCandyTypes = new ArrayList<String>();
+    private boolean isDecorated;
+    private ArrayList<Integer> candyIndexs;
 
     public House(){
 
-        //select NEW random candy
-        String candyHolder = candyList[];
-        int amtCandiesSelected = 0;
+        this.candyIndexs = new ArrayList<Integer>();
+        int amtOfCandyTypes = (int) Math.random() * candyList.length;
 
-        //amt of candy to be selected for this house
-        int totalCandies = Math.random() * candyList.size();
-        
-        while(!candyTypes.contains(candyHolder) || !(amtCandiesSelected < )){
-            candyTypes.add(candyHolder);
-            candyHolder
+
+        //select (amtOfCandyTypes) amount of candies from candyList and add their index in candyList to (candyIndexs)
+        for(int i = 0; i < amtOfCandyTypes ; i ++){
+            int randIndex = (int) Math.random() * candyList.length;
+            while(candyIndexs.contains(randIndex)){
+                randIndex = (int) Math.random() * candyList.length;
+            }
+            this.candyIndexs.add(randIndex);
         }
 
-        candyTypes.add()
+        this.isDecorated = (Math.random() > 0.5) ? true : false;
     }
 
-    public ArrayList<String> getCandy(int amt){
-
+    public Dictionary<Integer, Candy> getCandy(int amt){
+        return Dictionary<>
     }
 
 }
