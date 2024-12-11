@@ -1,12 +1,18 @@
 
 import java.util.ArrayList;
 
-public class Candy {
+public final class Candy {
     private String name;
     private int healValue;
+    private int indexOfCandy;
     // private int rarity; if wanted
     // private int size; if wanted
-    private static ArrayList<Candy> candies;
+    public static ArrayList<Candy> candies = new ArrayList<Candy>();
+    Candy candy = new Candy("pure sugar");
+    Candy candy2 = new Candy("pure sugar1");
+    Candy candy3 = new Candy("pure sugar2");
+    Candy candy4 = new Candy("pure sugar3");
+    Candy candy5 = new Candy("pure sugar4");
     
     public Candy(String name){
         this(name, 0);
@@ -16,6 +22,7 @@ public class Candy {
         this.healValue = healValue;
 
         candies.add(this);
+        indexOfCandy = candies.size()-1;
     }
 
     public String candyName() {
@@ -23,6 +30,9 @@ public class Candy {
     }
     public int candyHP() {
         return healValue;
+    }
+    public int indexOfCandy() {
+        return indexOfCandy;
     }
     
     public static String candyName(int i) {

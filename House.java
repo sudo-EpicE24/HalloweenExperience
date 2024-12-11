@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
@@ -24,14 +22,14 @@ public class House{
 
         //select (amtOfCandyTypes) amount of candies from candyList and add their index in candyList to (candyIndexs)
         for(int i = 0; i < amtOfCandyTypes ; i ++){
-            int randIndex = (int) Math.random() * Candy.candyTypes();
+            int randIndex = (int) (Math.random() * Candy.candyTypes());
             while(candyInventory.get(Candy.returnCandy(randIndex)) != null){
-                randIndex = (int) Math.random() * Candy.candyTypes();
+                randIndex = (int) (Math.random() * Candy.candyTypes());
             }
             this.candyInventory.put(Candy.returnCandy(randIndex), (int) (investmentLevel * maxCandyPerType));
         }
 
-        this.isDecorated = (investmentLevel  > 0.6) ? true : false;
+        this.isDecorated = (investmentLevel  > 0.6);
         this.address = "123 Main St.";
     }
     public House(String address){
@@ -45,7 +43,7 @@ public class House{
 
     //returns true for treat, false for trick
     public boolean trickOrTreat(){
-        return (this.generosity  > 0.3) ? true : false;
+        return (this.generosity  > 0.3);
     }
 
     //lowers generosity value
