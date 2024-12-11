@@ -18,7 +18,7 @@ public class House{
         this.investmentLevel = Math.random();
         this.generosity = Math.random();
 
-        int amtOfCandyTypes = (int) investmentLevel * Candy.candyTypes();
+        int amtOfCandyTypes = (int) (investmentLevel * Candy.candyTypes());
 
         //select (amtOfCandyTypes) amount of candies from candyList and add their index in candyList to (candyIndexs)
         for(int i = 0; i < amtOfCandyTypes ; i ++){
@@ -67,7 +67,7 @@ public class House{
             list.put(key, amt);
             counter += amt;
             candyInventory.replace(key, candyInventory.get(key) - amt);
-        };
+        }
 
         this.generosity -= 0.05;
         return list;
