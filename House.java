@@ -4,31 +4,33 @@ import java.util.Dictionary;
 
 public class House{
 
-    public static String[] candyList = {"Twix","Skittles","Snickers","Almond Joy"};
-
     private boolean isDecorated;
-    private ArrayList<Integer> candyIndexs;
+    private ArrayList<Integer> candyInventory;
+    private double investmentLevel;
+    private double generosity;
 
     public House(){
 
-        this.candyIndexs = new ArrayList<Integer>();
-        int amtOfCandyTypes = (int) Math.random() * candyList.length;
+        this.candyInventory = new ArrayList<Candy>();
+        this.investmentLevel = Math.random();
+        this.generosity = Math.random();
 
+        int amtOfCandyTypes = (int) investmentLevel * Candy.candyTypes();
 
         //select (amtOfCandyTypes) amount of candies from candyList and add their index in candyList to (candyIndexs)
         for(int i = 0; i < amtOfCandyTypes ; i ++){
-            int randIndex = (int) Math.random() * candyList.length;
-            while(candyIndexs.contains(randIndex)){
-                randIndex = (int) Math.random() * candyList.length;
+            int randIndex = (int) Math.random() * Candy.candyTypes();
+            while(candyInventory.contains(Candy.returnCandy(randIndex))){
+                randIndex = (int) Math.random() * Candy.candyTypes();
             }
-            this.candyIndexs.add(randIndex);
+            this.candyInventory.add(Candy.returnCandy(randIndex));
         }
 
-        this.isDecorated = (Math.random() > 0.5) ? true : false;
+        this.isDecorated = (investmentLevel  > 0.6) ? true : false;
     }
 
     public Dictionary<Integer, Candy> getCandy(int amt){
-        return Dictionary<>
+        list = new Dictionary<Integer, Candy>();
     }
 
 }
