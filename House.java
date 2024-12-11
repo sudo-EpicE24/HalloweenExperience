@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -34,12 +33,14 @@ public class House{
 
     //returns true for treat, false for trick
     public boolean trickOrTreat(){
-        return (generosity  > 0.3) ? true : false;
+        return (this.generosity  > 0.3) ? true : false;
     }
 
+    //lowers generosity value
     public void getTricked(){
-        generosity += 0.05;
+        this.generosity += 0.05;
     }
+    
     //Returns a sum of candy as <Candy, amount>
     public Dictionary<Candy, Integer> getCandy(){
 
@@ -54,7 +55,7 @@ public class House{
             counter += amt;
         };
 
-        generosity -= 0.05;
+        this.generosity -= 0.05;
         return list;
     }
 
