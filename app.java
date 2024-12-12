@@ -6,7 +6,6 @@ public class app {
         goToHouse(john, house);
         john.personInfo();
         john.trickOrTreatList();
-
     }
 
     public static void goToHouse(Person person, House house) {

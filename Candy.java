@@ -7,7 +7,11 @@ public final class Candy {
     // private int rarity; if wanted
     // private int size; if wanted
     private final static Candy[] CANDY_LIST = {
-        new Candy("s", 1)
+        new Candy("M&Ms", 0), new Candy("Candy Corn", 0),
+        new Candy("Pure sugar", 1), new Candy("Skittle", 1),
+        new Candy("Brown sugar", 2), new Candy("Starburst", 2),
+        new Candy("DumDum", 5), new Candy("Smarties", 5),
+        new Candy("Chocolate", 10), new Candy("Glazed Apple", 10)
     };
 
     public Candy(String name, int healValue) {
