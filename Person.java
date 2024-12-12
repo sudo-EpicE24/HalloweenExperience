@@ -1,48 +1,52 @@
-import java.util.Map;
+
+import java.util.ArrayList;
+
 
 public class Person {
     private static String[] tricks = {
         "TPed the house", "Politely placed a raw egg on the porch", "Rang the doorbell and left",
         "Released evidence of tax fraud by the owner", "Renovated the house with asbestos"
     };
-    private int tricksPerformed = 0;
-    private int treatsReceived = 0;
-    private String trickOrTreatList = "";
+    private int tricksPerformed;
+    private int treatsReceived;
+    private ArrayList<String> trickOrTreatList;
 
     private String name;
     private String costume;
-    private int age;
+    private double scaryValue;
     private int maxHP;
     private int HP;
-    private int candyCount[] = new int[Candy.candyTypes()];
+    private Candy[] candyBag;
 
     public Person() {
+        treatsReceived = 0;
+        tricksPerformed = 0;
+        trickOrTreatList = new ArrayList<>();
         name = "Child";
         costume = "Human Garb";
-        age = 0;
+        scaryValue = Math.random();
         maxHP = 1;
         HP = maxHP;
-        for (int i = 0; i < candyCount.length; i++) {
-            candyCount[i] = 0;
-        }
+        candyBag = Candy.generateEmptyCandyList();
     }
-    public Person(String name, String costume, int age, int maxHP) {
+    public Person(String name, String costume, double scaryValue, int maxHP) {
+        this();
         this.name = name;
         this.costume = costume;
-        this.age = age;
+        this.scaryValue = scaryValue;
         this.maxHP = maxHP;
         HP = maxHP;
     }
 
     public void personInfo() {
-        System.out.println(name+" is a "+age+" year old wearing "+costume);
+        System.out.println(name+" is a wearing a "+costume+" costume that has "+app.toPercent(scaryValue, 2)+" scare power");
         System.out.println("They are at "+HP+"/"+maxHP+" HP");
         System.out.print("They have ");
         boolean noCandy = true;
-        for (int i = 0; i < candyCount.length; i++) {
-            if (candyCount[i] > 0) {
+        for (int i = 0; i < candyBag.length; i++) {
+            if (candyBag[i].getCandyCount() > 0) {
                 noCandy = false;
-                System.out.print(candyCount[i]+" "+Candy.candyName(i)+", ");
+                System.out.print(candyBag[i].getCandyCount()+" "+Candy.getCandyName(i)+", ");
             }
         }
         if (noCandy) {
@@ -51,51 +55,83 @@ public class Person {
     }
     public void trickOrTreatList() {
         System.out.println(name+" got candy at "+treatsReceived+" houses and performed "+tricksPerformed+" tricks:");
-        System.out.println(trickOrTreatList);
+        for (String action: trickOrTreatList) {
+            System.out.println(action);
+        }
+    }
+    public double getScaryValue() {
+        return scaryValue;
+    }
+    public int getCurrentHP() {
+        return HP;
+    }
+    public String getName() {
+        return name;
+    }
+    public String getCostume() {
+        return costume;
     }
 
     public void trickOrTreat(boolean treat, House house) {
         if (treat) {
-            treat(house, house.getCandy());
+            // treat(house, house.getCandy());
+            treat(house.getAddress(), house.giveCandy());
         } else {
             trick(house);
         }
     }
-    public void treat(House house, Map<Candy, Integer> candyGiven) {
-            for (Map.Entry<Candy, Integer> candies : candyGiven.entrySet()) {
-                candyCount[candies.getKey().indexOfCandy()] += candies.getValue();
-            }
-            treatsReceived++;
+    // public void treat(House house, Map<Candy, Integer> candyGiven) {
+    //         for (Map.Entry<Candy, Integer> candies : candyGiven.entrySet()) {
+    //             candyCount[candies.getKey().indexOfCandy()] += candies.getValue();
+    //         }
+    //         treatsReceived++;
 
-            trickOrTreatList += candyGiven.size()+" treats received from " + house.getAddress() + ", \n";
+    //         trickOrTreatList += candyGiven.size()+" treats received from " + house.getAddress() + ", \n";
+    // }
+    public void treat(String address, Candy[] candyList) {
+        int candyGiven = 0;
+        for (int i = 0; i < candyList.length; i++) {
+            candyBag[i].addCandy(candyList[i].getCandyCount());
+            candyGiven += candyList[i].getCandyCount();
+        }
+
+        treatsReceived++;
+        trickOrTreatList.add(name+" received "+candyGiven + " treats from " + address);
     }
+
     public void trick(House house) {
         String trick = tricks[(int) (Math.random()*tricks.length)];
         tricksPerformed++;
 
-        trickOrTreatList += trick+" performed at " + house.getAddress() + ", \n";
+        trickOrTreatList.add(trick+" at " + house.getAddress());
     }
 
 
     public void giveCandy(int i, int amount) {
-        candyCount[i] += amount;
+        candyBag[i].addCandy(amount);
     }
     public void eatCandy(int i, int amount) {
-        eatCandy(Candy.returnCandy(i), amount);
+        eatCandy(Candy.getCandy(i), amount);
     }
     public void eatCandy(Candy candy, int amount) {
-        HP = Math.min(HP+(candy.candyHP()*amount), maxHP);
+        HP = Math.min(HP+(candy.getCandyHP()*amount), maxHP);
     }
 
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, HauntedHouse damageLocation) {
         HP = Math.max(0, HP-damage);
-        if (HP == 0) {
-            faint();
+        if (HP <= 0) {
+            System.out.println("They got so scared they passed out");
+            System.out.println("when they woke up they had become part of the haunted house at "+damageLocation.getAddress());
+            damageLocation.acquirePerson(this);
+            HP = maxHP;
         }
     }
-    
-    private void faint() {
-        //TODO: implement
+    public double howScared(double scaredByScaryValue) {
+        double scaryChance = (scaryValue - scaredByScaryValue + 1) / 2;
+        return Math.max(Math.random()-scaryChance,0);
+    }
+    public void becomeScarier(double increase) {
+        scaryValue = Math.min(1, scaryValue+increase);
     }
 
 }

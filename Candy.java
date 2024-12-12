@@ -1,51 +1,67 @@
 
-import java.util.ArrayList;
 
 public final class Candy {
     private String name;
     private int healValue;
-    private int indexOfCandy;
+    private int candyCount;
     // private int rarity; if wanted
     // private int size; if wanted
-    public static ArrayList<Candy> candies = new ArrayList<Candy>();
-    Candy candy = new Candy("pure sugar");
-    Candy candy2 = new Candy("pure sugar1");
-    Candy candy3 = new Candy("pure sugar2");
-    Candy candy4 = new Candy("pure sugar3");
-    Candy candy5 = new Candy("pure sugar4");
-    
-    public Candy(String name){
-        this(name, 0);
-    }
+    private final static Candy[] CANDY_LIST = {
+        new Candy("s", 1)
+    };
+
     public Candy(String name, int healValue) {
         this.name = name;
         this.healValue = healValue;
 
-        candies.add(this);
-        indexOfCandy = candies.size()-1;
+        candyCount = 0;
     }
 
-    public String candyName() {
+    public static Candy[] generateRandomCandyList(int maxCandyPerType, double candyMultiplier) {
+        Candy[] list = CANDY_LIST;
+        for(int i = 0; i < (int) (candyMultiplier * getCandyTypes()) ; i ++){
+            int randIndex = (int) (Math.random() * getCandyTypes());
+            while(list[i] != null){
+                randIndex = (int) (Math.random() * getCandyTypes());
+            }
+            list[randIndex].setCount((int) (maxCandyPerType*candyMultiplier));
+        }
+        return list;
+    }
+    public static Candy[] generateEmptyCandyList() {
+        return CANDY_LIST;
+    }
+
+    public String getCandyName() {
         return name;
     }
-    public int candyHP() {
+    public int getCandyHP() {
         return healValue;
     }
-    public int indexOfCandy() {
-        return indexOfCandy;
-    }
-    
-    public static String candyName(int i) {
-        return candies.get(i).candyName();
-    }
-    public static int candyHP(int i) {
-        return candies.get(i).candyHP();
+    public int getCandyCount() {
+        return candyCount;
     }
 
-    public static Candy returnCandy(int i) {
-        return candies.get(i);
+    public void setCount(int newCount) {
+        candyCount = newCount;
     }
-    public static int candyTypes() {
-        return candies.size();
+    public void addCandy(int change) {
+        candyCount = Math.max(0, candyCount+change);
     }
+    
+    public static String getCandyName(int i) {
+        return CANDY_LIST[i].getCandyName();
+    }
+    public static int getCandyHP(int i) {
+        return CANDY_LIST[i].getCandyHP();
+    }
+
+    public static Candy getCandy(int i) {
+        return CANDY_LIST[i];
+    }
+    public static int getCandyTypes() {
+        return CANDY_LIST.length;
+    }
+
+
 }
