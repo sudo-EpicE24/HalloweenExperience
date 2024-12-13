@@ -5,19 +5,26 @@ public class House{
 
     public final static int maxTotalCandy = 300;
     public final static int maxCandyPerType = 50;
-    public final static int maxCandyToGive = 15;
 
     private boolean isDecorated;
     private Candy[] candyInventory;
     private double investmentLevel;
     private double generosity;
     private String address;
+    private int numOfNonEmptyCandies = 0;
+
 
     public House(){
 
         this.investmentLevel = Math.random();
         this.generosity = Math.random();
         this.candyInventory = Candy.generateRandomCandyList(maxTotalCandy, maxCandyPerType, investmentLevel);
+
+        for(int i = 0; i < candyInventory.length; i++){
+            if(candyInventory[i].getCandyCount() > 0){
+                this.numOfNonEmptyCandies ++;
+            }
+        }
 
         this.isDecorated = (investmentLevel  > 0.6);
         this.address = "123 Main St.";
@@ -44,19 +51,13 @@ public class House{
     public Candy[] giveCandy() {
         Candy[] list = Candy.generateEmptyCandyList();
 
-        System.out.println();
-        System.out.println();
+        for(int i = 0; i < this.candyInventory.length; i++) {
+            int amt = Math.min( ((int) (this.numOfNonEmptyCandies * this.generosity * Math.random())),  this.candyInventory[i].getCandyCount()); //Amount of this candy to give 
 
-        for(int i = 0; i < candyInventory.length; i++) {
-            System.out.println(candyInventory[i].getCandyName() + " : " +  candyInventory[i].getCandyCount());
-
-            int amt = Math.min( ((int) (maxCandyToGive / candyInventory.length * generosity)),  candyInventory[i].getCandyCount()); //Amount of this candy to give 
-
-            candyInventory[i].addCandy(-amt);
+            this.candyInventory[i].addCandy(-amt);
             list[i].addCandy(amt);
-
-            // TODO: improve randomization
         }
+
         return list;
     }
 
