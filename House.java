@@ -3,8 +3,9 @@
 
 public class House{
 
-    public static int maxCandyPerType = 50;
-    public static int maxCandyToGive = 15;
+    public final static int maxTotalCandy = 300;
+    public final static int maxCandyPerType = 50;
+    public final static int maxCandyToGive = 15;
 
     private boolean isDecorated;
     // private Map<Candy,Integer> candyInventory;
@@ -18,7 +19,7 @@ public class House{
 
         this.investmentLevel = Math.random();
         this.generosity = Math.random();
-        this.candyInventory = Candy.generateRandomCandyList(maxCandyPerType, investmentLevel);
+        this.candyInventory = Candy.generateRandomCandyList(maxCandyToGive, maxCandyPerType, investmentLevel);
 
         //select (amtOfCandyTypes) amount of candies from candyList and add their index in candyList to (candyIndexs)
         // for(int i = 0; i < amtOfCandyTypes ; i ++){
@@ -85,7 +86,7 @@ public class House{
                 int amt = (int) (Math.min(
                     Math.random() * totalCandy /* im not sure what the actual variable was */ / 10, 
                     Math.min(totalCandy - candyCounter, candyInventory[i].getCandyCount()))); // this ensures that we never go below 0
-
+                System.out.println(amt);
                 candyCounter += amt;
                 candyInventory[i].addCandy(-amt);
                 list[i].addCandy(amt);
