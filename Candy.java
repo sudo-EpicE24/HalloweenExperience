@@ -27,7 +27,7 @@ public final class Candy {
     }
 
     public static Candy[] generateRandomCandyList(int maxCandy, int maxCandyPerType, double candyMultiplier) {
-        Candy[] list = CANDY_LIST;
+        Candy[] list = generateEmptyCandyList();
         ArrayList<Integer> addedCandiesIndex = new ArrayList<>();
         int candyGiven = 0;
         maxCandy *= Math.sqrt(candyMultiplier);
@@ -42,11 +42,15 @@ public final class Candy {
             list[randIndex].addCandy(toGive);
             candyGiven += toGive;
         }
-
+        
         return list;
     }
     public static Candy[] generateEmptyCandyList() {
-        return CANDY_LIST;
+        Candy[] list = new Candy[getCandyTypes()];
+        for (int i = 0; i < getCandyTypes(); i++) {
+            list[i] = new Candy(CANDY_LIST[i].getCandyName(), CANDY_LIST[i].getCandyHP());
+        }
+        return list;
     }
 
     public String getCandyName() {

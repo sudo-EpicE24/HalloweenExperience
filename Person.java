@@ -50,8 +50,9 @@ public class Person {
             }
         }
         if (noCandy) {
-            System.out.println("no candy :(");
+            System.out.print("no candy :(");
         }
+        System.out.println();
     }
     public void trickOrTreatList() {
         System.out.println(name+" got candy at "+treatsReceived+" houses and performed "+tricksPerformed+" tricks:");
@@ -80,14 +81,7 @@ public class Person {
             trick(house);
         }
     }
-    // public void treat(House house, Map<Candy, Integer> candyGiven) {
-    //         for (Map.Entry<Candy, Integer> candies : candyGiven.entrySet()) {
-    //             candyCount[candies.getKey().indexOfCandy()] += candies.getValue();
-    //         }
-    //         treatsReceived++;
 
-    //         trickOrTreatList += candyGiven.size()+" treats received from " + house.getAddress() + ", \n";
-    // }
     public void treat(String address, Candy[] candyList) {
         int candyGiven = 0;
         for (int i = 0; i < candyList.length; i++) {
@@ -111,10 +105,10 @@ public class Person {
         candyBag[i].addCandy(amount);
     }
     public void eatCandy(int i, int amount) {
-        eatCandy(Candy.getCandy(i), amount);
-    }
-    public void eatCandy(Candy candy, int amount) {
-        HP = Math.min(HP+(candy.getCandyHP()*amount), maxHP);
+        amount = Math.min(amount, candyBag[i].getCandyCount());
+
+        HP = Math.min(HP+(candyBag[i].getCandyHP()*amount), maxHP);
+        candyBag[i].addCandy(-amount);
     }
 
     public void takeDamage(int damage, HauntedHouse damageLocation) {
