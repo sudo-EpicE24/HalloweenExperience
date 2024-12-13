@@ -1,6 +1,8 @@
 
 
 
+
+
 public class House{
 
     public final static int maxTotalCandy = 300;
@@ -20,8 +22,8 @@ public class House{
         this.generosity = Math.random();
         this.candyInventory = Candy.generateRandomCandyList(maxTotalCandy, maxCandyPerType, investmentLevel);
 
-        for(int i = 0; i < candyInventory.length; i++){
-            if(candyInventory[i].getCandyCount() > 0){
+        for (Candy candy : candyInventory) {
+            if (candy.getCandyCount() > 0) {
                 this.numOfNonEmptyCandies ++;
             }
         }
