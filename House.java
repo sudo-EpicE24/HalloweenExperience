@@ -43,22 +43,19 @@ public class House{
 
     public Candy[] giveCandy() {
         Candy[] list = Candy.generateEmptyCandyList();
-        int totalCandy = (int) (generosity * maxCandyToGive);
-        int candyCounter = 0;
+
+        System.out.println();
+        System.out.println();
 
         for(int i = 0; i < candyInventory.length; i++) {
-            if (candyInventory[i].getCandyCount() != 0) {
-                int amt = (int) (Math.min(
-                    Math.random() * totalCandy / 10, 
-                    Math.min(totalCandy - candyCounter, candyInventory[i].getCandyCount()))); // this ensures that we never go below 0
-                System.out.println(amt);
-                candyCounter += amt;
-                candyInventory[i].addCandy(-amt);
-                list[i].addCandy(amt);
+            System.out.println(candyInventory[i].getCandyName() + " : " +  candyInventory[i].getCandyCount());
 
-                // TODO: improve randomization
+            int amt = Math.min( ((int) (maxCandyToGive / candyInventory.length * generosity)),  candyInventory[i].getCandyCount()); //Amount of this candy to give 
 
-            }
+            candyInventory[i].addCandy(-amt);
+            list[i].addCandy(amt);
+
+            // TODO: improve randomization
         }
         return list;
     }
