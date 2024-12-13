@@ -1,4 +1,7 @@
 
+import java.util.ArrayList;
+
+
 
 
 
@@ -25,15 +28,21 @@ public final class Candy {
 
     public static Candy[] generateRandomCandyList(int maxCandy, int maxCandyPerType, double candyMultiplier) {
         Candy[] list = CANDY_LIST;
+        ArrayList<Integer> addedCandiesIndex = new ArrayList<>();
         int candyGiven = 0;
         maxCandy *= Math.sqrt(candyMultiplier);
-        while (candyGiven < maxCandy) {
+        while (candyGiven < maxCandy && addedCandiesIndex.size() < getCandyTypes()) {
             int randIndex = (int) (Math.random() * getCandyTypes());
-            int toGive = Math.min(maxCandy-candyGiven, (int) Math.round(maxCandyPerType * candyMultiplier));
+            while (addedCandiesIndex.contains(randIndex)) {
+                randIndex = (int) (Math.random() * getCandyTypes());
+            }
+            addedCandiesIndex.add(randIndex);
+            int toGive = Math.min(maxCandyPerType, Math.min(maxCandy-candyGiven,
+                (int) Math.round(maxCandyPerType * candyMultiplier) + (int) (maxCandyPerType * ((Math.random() - 0.5)/5))));
             list[randIndex].addCandy(toGive);
             candyGiven += toGive;
         }
-        
+
         return list;
     }
     public static Candy[] generateEmptyCandyList() {
