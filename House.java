@@ -17,7 +17,7 @@ public class House{
 
         this.investmentLevel = Math.random();
         this.generosity = Math.random();
-        this.candyInventory = Candy.generateRandomCandyList(maxCandyToGive, maxCandyPerType, investmentLevel);
+        this.candyInventory = Candy.generateRandomCandyList(maxTotalCandy, maxCandyPerType, investmentLevel);
 
         this.isDecorated = (investmentLevel  > 0.6);
         this.address = "123 Main St.";

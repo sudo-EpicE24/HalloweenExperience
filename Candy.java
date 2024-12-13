@@ -10,8 +10,8 @@ public final class Candy {
     // private int size; if wanted
     private final static Candy[] CANDY_LIST = {
         new Candy("M&Ms", 0), new Candy("Candy Corn", 0),
-        new Candy("Pure sugar", 1), new Candy("Skittle", 1),
-        new Candy("Brown sugar", 2), new Candy("Starburst", 2),
+        new Candy("Grains of pure sugar", 1), new Candy("Skittle", 1),
+        new Candy("Grains of brown sugar", 2), new Candy("Starburst", 2),
         new Candy("DumDum", 5), new Candy("Smarties", 5),
         new Candy("Chocolate", 10), new Candy("Glazed Apple", 10)
     };
@@ -26,13 +26,14 @@ public final class Candy {
     public static Candy[] generateRandomCandyList(int maxCandy, int maxCandyPerType, double candyMultiplier) {
         Candy[] list = CANDY_LIST;
         int candyGiven = 0;
-        maxCandy *= candyMultiplier;
+        maxCandy *= Math.sqrt(candyMultiplier);
         while (candyGiven < maxCandy) {
             int randIndex = (int) (Math.random() * getCandyTypes());
             int toGive = Math.min(maxCandy-candyGiven, (int) Math.round(maxCandyPerType * candyMultiplier));
             list[randIndex].addCandy(toGive);
             candyGiven += toGive;
         }
+        
         return list;
     }
     public static Candy[] generateEmptyCandyList() {
