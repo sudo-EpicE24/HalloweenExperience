@@ -1,5 +1,7 @@
 
 
+
+
 public final class Candy {
     private String name;
     private int healValue;
@@ -21,14 +23,15 @@ public final class Candy {
         candyCount = 0;
     }
 
-    public static Candy[] generateRandomCandyList(int maxCandyPerType, double candyMultiplier) {
+    public static Candy[] generateRandomCandyList(int maxCandy, int maxCandyPerType, double candyMultiplier) {
         Candy[] list = CANDY_LIST;
-        for(int i = 0; i < (int) (candyMultiplier * getCandyTypes()) ; i ++){
+        int candyGiven = 0;
+        maxCandy *= candyMultiplier;
+        while (candyGiven < maxCandy) {
             int randIndex = (int) (Math.random() * getCandyTypes());
-            while(list[i] != null){
-                randIndex = (int) (Math.random() * getCandyTypes());
-            }
-            list[randIndex].setCount((int) (maxCandyPerType*candyMultiplier));
+            int toGive = Math.min(maxCandy-candyGiven, (int) Math.round(maxCandyPerType * candyMultiplier));
+            list[randIndex].addCandy(toGive);
+            candyGiven += toGive;
         }
         return list;
     }
