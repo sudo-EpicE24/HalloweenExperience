@@ -52,10 +52,14 @@ public class House{
         Candy[] list = Candy.generateEmptyCandyList();
 
         for(int i = 0; i < this.candyInventory.length; i++) {
-            int amt = Math.min( ((int) (this.numOfNonEmptyCandies * this.generosity * Math.random())),  this.candyInventory[i].getCandyCount()); //Amount of this candy to give 
+            int amt = Math.min( 
+                ((int) (this.numOfNonEmptyCandies * this.generosity * Math.random())),  
+                this.candyInventory[i].getCandyCount()
+            ); //Amount of this candy to give 
 
             this.candyInventory[i].addCandy(-amt);
             list[i].addCandy(amt);
+
         }
 
         return list;
