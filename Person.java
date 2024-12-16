@@ -1,11 +1,13 @@
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Person {
     private static String[] tricks = {
         "TPed the house", "Politely placed a raw egg on the porch", "Rang the doorbell and left",
-        "Released evidence of tax fraud by the owner", "Renovated the house with asbestos"
+        "Released evidence of tax fraud by the owner", "Renovated the house with asbestos",
+        "Bought the house", "Over watered the plants", "Put fake blood everywhere"
     };
     private int tricksPerformed;
     private int treatsReceived;
@@ -86,6 +88,16 @@ public class Person {
         return candyBag[i];
     }
 
+    public boolean hasCandy() {
+        boolean hasCandy = false;
+        for (Candy candy : candyBag) {
+            if (candy.getCandyCount() > 0) {
+                hasCandy = true;
+            }
+        }
+        return hasCandy;
+    }
+
     public ArrayList<Integer> hasWhichCandies() {
         ArrayList<Integer> indexes = new ArrayList<>(); 
         for (int i = 0; i < Candy.getCandyTypes(); i++) {
@@ -139,7 +151,7 @@ public class Person {
     public void trick(House house) {
         String trick = tricks[(int) (Math.random()*tricks.length)];
         tricksPerformed++;
-        System.out.println(name+" performed "+trick+" at " + house.getAddress());
+        System.out.println(name+" "+trick+" at " + house.getAddress());
 
         trickOrTreatList.add(trick+" at " + house.getAddress());
     }
@@ -151,19 +163,20 @@ public class Person {
     public void eatCandy(int i, int amount) {
         amount = Math.min(amount, candyBag[i].getCandyCount());
         int newHP = Math.min(HP+(candyBag[i].getCandyHP()*amount), maxHP);
-        System.out.println(name+" ate "+amount+" "+candyBag[i]+getName());
+        System.out.println(name+" ate "+amount+" "+candyBag[i].getCandyName());
         System.out.println(name+" healed "+(newHP-HP)+" HP");
-        System.out.println(name+" are now at "+newHP+"/"+maxHP+" HP");
+        System.out.println(name+" is now at "+newHP+"/"+maxHP+" HP");
         candyEaten += amount;
         HP = newHP;
         candyBag[i].addCandy(-amount);
     }
 
-    public boolean takeDamage(int damage, HauntedHouse damageLocation) {
+    public boolean takeDamage(int damage, HauntedHouse damageLocation) throws InterruptedException {
         HP = Math.max(0, HP-damage);
         if (HP <= 0) {
             System.out.println("They got so scared they passed out");
-            System.out.println("when they woke up they had become part of the haunted house at "+damageLocation.getAddress());
+            TimeUnit.SECONDS.sleep(Math.abs(HP) + 1);
+            System.out.println("When they woke up they had become part of the haunted house at "+damageLocation.getAddress());
             damageLocation.acquirePerson(this);
             HP = maxHP;
             return true;
