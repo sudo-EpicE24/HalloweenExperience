@@ -43,6 +43,7 @@ public class app {
         while (true) {
             Person playerCharacter = Person.newPlayerCharacter();
             playerCharacter.personInfo();
+            TimeUnit.SECONDS.sleep(1);
 
             System.out.print("Should there be others trick or treating? (y/n)\n>");
             if (scan.next().equalsIgnoreCase("y")) {
@@ -100,7 +101,7 @@ public class app {
         }
         
 
-        System.out.println("What time will you go home? (5.5pm-12pm)\n>");
+        System.out.print("What time will you go home? (5.5pm-12pm)\n>");
         double returnTime = Math.max(5.5, Math.min(12, scan.nextDouble()));
 
         while (time < returnTime) {
@@ -115,13 +116,15 @@ public class app {
             System.out.println();
 
             switch (choice) {
-                case 1: // TRICK OR TREAT
+                case 1 -> { // TRICK OR TREAT
                     goToHouse(person, randomHouse(housesGoneTo));
                     time += TRICK_OR_TREAT_TIME;
-                case 2: //HAUNTED HOUSE
+                }
+                case 2 -> { //HAUNTED HOUSE
                     ScaryHouse.enterHauntedHouse(person);
                     time += HAUNTED_HOUSE_TIME;
-                case 3: //EAT CANDY
+                }
+                case 3 -> { //EAT CANDY
                     System.out.println("What candy do you want to eat? Your options are: ");
                     for (int i = 0; i < Candy.getCandyTypes(); i++) {
                         if (person.getCandy(i).getCandyCount() > 0) {
@@ -131,12 +134,13 @@ public class app {
                     System.out.print(">");
                     int candyToEat = scan.nextInt();
 
-                    System.out.println("How much do you want to eat?\n>");
+                    System.out.print("How much do you want to eat?\n>");
                     int amount = scan.nextInt();
 
                     person.eatCandy(candyToEat, amount);
                     time += EAT_CANDY_TIME;
-                default:
+                }
+                default -> {}
             }
             TimeUnit.SECONDS.sleep(1);
             System.out.println();
@@ -163,8 +167,11 @@ public class app {
     }
 
     public static String toTimePM(double time) {
-        String newTime = Math.floor(time)+":";
-        newTime += (time % 1) * 60;
+        String newTime = ((int) Math.floor(time))+":";
+        newTime += ((int) Math.round((time % 1) * 60));
+        if (Math.round((time % 1) * 60) == 0) {
+            newTime += "0";
+        }
         return newTime + "pm";
     }
 

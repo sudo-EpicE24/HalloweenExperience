@@ -31,25 +31,28 @@ public class HauntedHouse {
 
     public void enterHauntedHouse(Person person) throws InterruptedException {
         System.out.println(person.getName()+" entered the haunted house at "+address+".");
-        TimeUnit.MILLISECONDS.sleep(500);
+        TimeUnit.MILLISECONDS.sleep(1500);
         for (int i = 0; i < roomCount && person.getCurrentHP() > 0; i++) {
             int j = i%roomTypes.length;
             Person scaryPerson = scaryPeople.get((int) (Math.random()*scaryPeople.size()));
             String roomEntered = roomTypes[j];
 
-            System.out.println(person.getName() + "entered " + roomEntered + " and saw a " + scaryPerson.getCostume());
-            TimeUnit.MILLISECONDS.sleep(500);
+            System.out.println(person.getName() + " entered " + roomEntered + " and saw a " + scaryPerson.getCostume());
+            TimeUnit.MILLISECONDS.sleep(1500);
             double howScared = person.howScared(scaryPerson.getScaryValue());
             if (howScared > 0) {
                 int damageDone = Math.max(1, (int) Math.round(howScared*scaryValue));
                 System.out.println("They got scared and took "+damageDone+" damage");
-                person.takeDamage(damageDone, this);
+                TimeUnit.SECONDS.sleep(1);
+                if (person.takeDamage(damageDone, this)) {
+                    break;
+                }
             } else {
                 person.becomeScarier(scaryPerson.getScaryValue()/100);
                 System.out.println("They did not get scared and laughed at the actor "+scaryPerson.getName());
                 System.out.println("this made them "+app.toPercent(scaryPerson.getScaryValue()/100, 2)+" scarier");
             }
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(2);
         }
     }
 

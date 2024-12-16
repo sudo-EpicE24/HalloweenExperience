@@ -9,6 +9,7 @@ public class Person {
     };
     private int tricksPerformed;
     private int treatsReceived;
+    private int candyEaten;
     private ArrayList<String> trickOrTreatList;
 
     private String name;
@@ -21,6 +22,7 @@ public class Person {
     public Person() {
         treatsReceived = 0;
         tricksPerformed = 0;
+        candyEaten = 0;
         trickOrTreatList = new ArrayList<>();
         name = "Child";
         costume = "Human Garb";
@@ -30,13 +32,7 @@ public class Person {
         candyBag = Candy.generateEmptyCandyList();
     }
     public Person(String name, String costume) {
-        this();
-        this.name = name;
-        this.costume = costume;
-        scaryValue = Math.random();
-        maxHP = (int) (Math.random() * 100) + 1;
-        HP = maxHP;
-
+        this(name, costume, Math.random(), (int) (Math.random() * 100) + 1);
     }
     public Person(String name, String costume, double scaryValue, int maxHP) {
         this();
@@ -50,12 +46,14 @@ public class Person {
     public void personInfo() {
         System.out.println(name+" is a wearing a "+costume+" costume that has "+app.toPercent(scaryValue, 2)+" scare power");
         System.out.println("They are at "+HP+"/"+maxHP+" HP");
+        System.out.println("They have eaten "+candyEaten+" pieces of candy");
         System.out.print("They have ");
         boolean noCandy = true;
         for (int i = 0; i < candyBag.length; i++) {
             if (candyBag[i].getCandyCount() > 0) {
+                if (noCandy) {System.out.println();}
                 noCandy = false;
-                System.out.print(candyBag[i].getCandyCount()+" "+Candy.getCandyName(i)+", ");
+                System.out.println(candyBag[i].getCandyCount()+" "+Candy.getCandyName(i)+", ");
             }
         }
         if (noCandy) {
@@ -132,6 +130,7 @@ public class Person {
             candyBag[i].addCandy(candyList[i].getCandyCount());
             candyGiven += candyList[i].getCandyCount();
         }
+        System.out.println(name+" received "+candyGiven + " treats from " + address);
 
         treatsReceived++;
         trickOrTreatList.add(name+" received "+candyGiven + " treats from " + address);
@@ -154,18 +153,21 @@ public class Person {
         System.out.println(name+" ate "+amount+" "+candyBag[i]+getName());
         System.out.println(name+" healed "+(newHP-HP)+" HP");
         System.out.println(name+" are now at "+newHP+"/"+maxHP+" HP");
+        candyEaten += amount;
         HP = newHP;
         candyBag[i].addCandy(-amount);
     }
 
-    public void takeDamage(int damage, HauntedHouse damageLocation) {
+    public boolean takeDamage(int damage, HauntedHouse damageLocation) {
         HP = Math.max(0, HP-damage);
         if (HP <= 0) {
             System.out.println("They got so scared they passed out");
             System.out.println("when they woke up they had become part of the haunted house at "+damageLocation.getAddress());
             damageLocation.acquirePerson(this);
             HP = maxHP;
+            return true;
         }
+        return false;
     }
     public double howScared(double scaredByScaryValue) {
         double scaryChance = (scaryValue - scaredByScaryValue + 1) / 2;

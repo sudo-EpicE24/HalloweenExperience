@@ -2,8 +2,8 @@
 import java.util.ArrayList;
 
 public final class Candy {
-    private String name;
-    private int healValue;
+    private final String name;
+    private final int healValue;
     private int candyCount;
     // private int rarity; if wanted
     // private int size; if wanted
