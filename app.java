@@ -15,12 +15,12 @@ public class app {
         new House("Delaware"),
         new House("89 E 42nd St"),
         new House("Your house"),
-        new House("Your house"),
-        new House("Your house"),
-        new House("Your house"),
-        new House("Your house"),
-        new House("Your house"),
-        new House("Your house")
+        new House("My house"),
+        new House("221B Baker Street"),
+        new House("The North Pole"),
+        new House("Gettysburg"),
+        new House("Bag End"),
+        new House("234 Second Ave")
     };
     public static HauntedHouse ScaryHouse;
     public static final double TRICK_OR_TREAT_TIME = 30/60.0;
@@ -50,12 +50,13 @@ public class app {
             person.personInfo();
             TimeUnit.SECONDS.sleep(10);
         }
-
+        
         goTrickOrTreating(playerCharacter, true);
         playerCharacter.personInfo();
-
+        
     }
     public static void goTrickOrTreating(Person person, boolean isPlayer) throws InterruptedException {
+        ArrayList<Integer> housesGoneTo = new ArrayList<>();
         Scanner scan = new Scanner(System.in);
         double time = 5;
 
@@ -63,8 +64,8 @@ public class app {
             double returnTime = (Math.round(Math.random() * 10) / 2.0) + 6.5;
 
             while(time < returnTime){
-                //EAT CANDY
                 if(person.getCurrentHP() < person.getMaxHP()){
+                    //EAT CANDY
                     ArrayList<Integer> candiesHad = person.hasWhichCandies();
                     if(!candiesHad.isEmpty()){
                         person.eatCandy(candiesHad.get((int) (Math.random() * candiesHad.size())), 0);
@@ -79,9 +80,10 @@ public class app {
                 time += HAUNTED_HOUSE_TIME;
                }else{
                 //TRICK OR TREAT
-                goToHouse(person, houses[(int) (Math.random() * houses.length)]);
+                goToHouse(person, randomHouse(housesGoneTo));
                 time += TRICK_OR_TREAT_TIME;
                }
+               System.out.println();
             }
 
             return;
@@ -92,7 +94,6 @@ public class app {
         double returnTime = Math.max(5.5, Math.min(12, scan.nextDouble()));
 
         while (time < returnTime) {
-            ArrayList<Integer> housesGoneTo = new ArrayList<>();
             System.out.println("What do you want to do? You are at "+person.getCurrentHP()+"/"+person.getMaxHP()+" HP.");
             System.out.println("It is "+toTimePM(time));
             System.out.println("1: Trick or treat");
@@ -101,13 +102,16 @@ public class app {
             System.out.println(">");
 
             int choice = scan.nextInt();
+            System.out.println();
 
             switch (choice) {
-                case 1:
+                case 1: // TRICK OR TREAT
                     goToHouse(person, randomHouse(housesGoneTo));
-                case 2:
+                    time += TRICK_OR_TREAT_TIME;
+                case 2: //HAUNTED HOUSE
                     ScaryHouse.enterHauntedHouse(person);
-                case 3:
+                    time += HAUNTED_HOUSE_TIME;
+                case 3: //EAT CANDY
                     System.out.println("What candy do you want to eat? Your options are: ");
                     for (int i = 0; i < Candy.getCandyTypes(); i++) {
                         if (person.getCandy(i).getCandyCount() > 0) {
@@ -117,28 +121,30 @@ public class app {
                     System.out.println("How much do you want to eat? ");
                     int amount = scan.nextInt();
                     person.eatCandy(candyToEat, amount);
+                    time += EAT_CANDY_TIME;
                 default:
             }
+            TimeUnit.SECONDS.sleep(1);
+            System.out.println();
         }
-        TimeUnit.SECONDS.sleep(1);
     }
 
 
     public static void goToHouse(Person person, House house) {
         person.trickOrTreat(house.trickOrTreat(), house);
     }
-    public static House randomHouse(ArrayList<Integer> vistedHouses) {
+    public static House randomHouse(ArrayList<Integer> visitedHouses) {
 
-        if (vistedHouses.size() >= houses.length) {
-            vistedHouses.clear();
+        if (visitedHouses.size() >= houses.length) {
+            visitedHouses.clear();
             return new House("The overflow house on Bepis lane");
         }
 
         int randIndex = (int) (Math.random() * houses.length);
-        while (vistedHouses.contains(randIndex)) {
+        while (visitedHouses.contains(randIndex)) {
             randIndex = (int) (Math.random() * houses.length);
         }
-        vistedHouses.add(randIndex);
+        visitedHouses.add(randIndex);
         return houses[randIndex];
     }
 
