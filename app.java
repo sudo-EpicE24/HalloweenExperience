@@ -5,8 +5,9 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class app {
-    public static Scanner scan = new Scanner(System.in);
-    public static House[] houses = {
+    public static final Scanner scan = new Scanner(System.in);
+
+    public static final House[] houses = {
         new House("House on House St"),
         new House("1600 Pennsylvania Avenue"),
         new House("1600 City Park Esplanade"),
@@ -22,42 +23,51 @@ public class app {
         new House("Bag End"),
         new House("234 Second Ave")
     };
-    public static HauntedHouse ScaryHouse;
+    public static final ArrayList<Person> nonPlayerCharacters = new ArrayList<>(Arrays.asList(
+        new Person("Courtney", "Corn being", 0.8, 20),
+        new Person("Link", "Bone man", 0.8, 15),
+        new Person("Xander", "Pumpkin guy", 0.7, 30),
+        new Person("The Queen of England", "Evil James Bond", 0.5, Integer.MAX_VALUE-1),
+        new Person("The Queen of England (Evil Mode)", "James Bond", 0.95, Integer.MAX_VALUE),
+        new Person("The King of England", "The Queen of England", 1, 1),
+        new Person("Joe Biden", "The Crown Jewels", 0, 1),
+        new Person("Nameless Child", "Named child"),
+        new Person("John", "Johns Clothes")
+    ));
+    public static final HauntedHouse ScaryHouse = new HauntedHouse(5, 10, nonPlayerCharacters, "London EC3N 4AB, UK");
     public static final double TRICK_OR_TREAT_TIME = 30/60.0;
     public static final double HAUNTED_HOUSE_TIME = 60/60.0;
     public static final double EAT_CANDY_TIME = 5/60.0;
     
     public static void main(String[] args) throws Exception {
-        ArrayList<Person> nonPlayerCharacters = new ArrayList<>();
-        nonPlayerCharacters.addAll(Arrays.asList(
-            new Person("Courtney", "Corn being", 0.8, 20),
-            new Person("Link", "Bone man", 0.8, 15),
-            new Person("Xander", "Pumpkin guy", 0.7, 30),
-            new Person("The Queen of England", "Evil James Bond", 0.5, Integer.MAX_VALUE-1),
-            new Person("The Queen of England (Evil Mode)", "James Bond", 0.95, Integer.MAX_VALUE),
-            new Person("The King of England", "The Queen of England", 1, 1),
-            new Person("Joe Biden", "The Crown Jewels", 0, 1),
-            new Person("Nameless Child", "Named child"),
-            new Person("John", "Johns Clothes")
-        ));
-        HauntedHouse ScaryHouse = new HauntedHouse(5, 10, nonPlayerCharacters, "London EC3N 4AB, UK");
+        while (true) {
+            Person playerCharacter = Person.newPlayerCharacter();
+            playerCharacter.personInfo();
 
-        Person playerCharacter = Person.newPlayerCharacter();
-        playerCharacter.personInfo();
+            System.out.print("Should there be others trick or treating? (y/n)\n>");
+            if (scan.next().equalsIgnoreCase("y")) {
+                for (Person person : nonPlayerCharacters) {
+                    goTrickOrTreating(person, false);
+                    person.personInfo();
+                    TimeUnit.SECONDS.sleep(10);
+                }
+            }
 
-        for (Person person : nonPlayerCharacters) {
-            goTrickOrTreating(person, false);
-            person.personInfo();
-            TimeUnit.SECONDS.sleep(10);
+            
+            goTrickOrTreating(playerCharacter, true);
+            playerCharacter.personInfo();
+            ScaryHouse.acquirePerson(playerCharacter);
+
+            System.out.print("Would you like to trick or treat again? (y/n)\n>");
+            if (!scan.next().equalsIgnoreCase("y")) {
+                break;
+            }
         }
         
-        goTrickOrTreating(playerCharacter, true);
-        playerCharacter.personInfo();
-        
     }
+
     public static void goTrickOrTreating(Person person, boolean isPlayer) throws InterruptedException {
         ArrayList<Integer> housesGoneTo = new ArrayList<>();
-        Scanner scan = new Scanner(System.in);
         double time = 5;
 
         if(!isPlayer){
@@ -90,7 +100,7 @@ public class app {
         }
         
 
-        System.out.println("What time will you go home? (5.5pm-12pm) ");
+        System.out.println("What time will you go home? (5.5pm-12pm)\n>");
         double returnTime = Math.max(5.5, Math.min(12, scan.nextDouble()));
 
         while (time < returnTime) {
@@ -99,7 +109,7 @@ public class app {
             System.out.println("1: Trick or treat");
             System.out.println("2: Go to a haunted house");
             System.out.println("3: Eat some candy");
-            System.out.println(">");
+            System.out.print(">");
 
             int choice = scan.nextInt();
             System.out.println();
@@ -117,9 +127,13 @@ public class app {
                         if (person.getCandy(i).getCandyCount() > 0) {
                             System.out.println(i+": "+person.getCandy(i).getCandyCount()+" "+person.getCandy(i).getCandyName());
                         }
-                    }   int candyToEat = scan.nextInt();
-                    System.out.println("How much do you want to eat? ");
+                    }
+                    System.out.print(">");
+                    int candyToEat = scan.nextInt();
+
+                    System.out.println("How much do you want to eat?\n>");
                     int amount = scan.nextInt();
+
                     person.eatCandy(candyToEat, amount);
                     time += EAT_CANDY_TIME;
                 default:

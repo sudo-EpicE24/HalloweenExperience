@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class HauntedHouse {
@@ -7,13 +8,12 @@ public class HauntedHouse {
       "the library", "the nursery", "the ballroom", "the scary room", "a room solely containing a small replica of the haunted house"
     };
     private ArrayList<Person> scaryPeople;
-    private String address;
+    private final String address;
     private int scaryValue;
     private int roomCount;
 
     public HauntedHouse() {
-        scaryPeople = new ArrayList<>();
-        scaryPeople.add(new Person());
+        scaryPeople = new ArrayList<>(Arrays.asList(new Person()));
         scaryValue = 1;
         roomCount = 5;
         address = "123 Main St.";
@@ -56,6 +56,7 @@ public class HauntedHouse {
     public void acquirePerson(Person person) {
         person.becomeScarier(scaryValue/10);
         roomCount++;
+        scaryValue++;
         scaryPeople.add(person);
     }
 }

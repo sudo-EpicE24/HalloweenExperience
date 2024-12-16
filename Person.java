@@ -102,16 +102,16 @@ public class Person {
     public static Person newPlayerCharacter() {
         Scanner scan = new Scanner(System.in);
 
-        System.out.print("What is your name? ");
+        System.out.print("What is your name?\n>");
         String userName = scan.nextLine();
 
-        System.out.print("What are you dressed as? ");
+        System.out.print("What are you dressed as?\n>");
         String userCostume = scan.nextLine();
 
-        System.out.print("How scary are you on a scale of 0 to 100? ");
+        System.out.print("How scary are you on a scale of 0 to 100?\n>");
         double userScaryValue = scan.nextInt()/100.0;
 
-        System.out.print("What is your HP? ");
+        System.out.print("What is your HP?\n>");
         int userHP = scan.nextInt();
 
         return new Person(userName, userCostume, userScaryValue, userHP);
