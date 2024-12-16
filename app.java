@@ -4,9 +4,25 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class app {
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
+    public static Scanner scan = new Scanner(System.in);
+    public static House[] houses = {
+        new House("House on House St"),
+        new House("1600 Pennsylvania Avenue"),
+        new House("1600 City Park Esplanade"),
+        new House("10 Downing St"),
+        new House("202 Garstang St"),
+        new House("Delaware"),
+        new House("89 E 42nd St"),
+        new House("Your house"),
+        new House("Your house"),
+        new House("Your house"),
+        new House("Your house"),
+        new House("Your house"),
+        new House("Your house"),
+        new House("Your house")
+    };
 
+    public static void main(String[] args) {
         ArrayList<Person> nonPlayerCharacters = new ArrayList<>();
         nonPlayerCharacters.addAll(Arrays.asList(
             new Person("Courtney", "Corn being", 0.8, 20),
@@ -17,22 +33,6 @@ public class app {
             new Person("The King of England", "The Queen of England", 1, 1),
             new Person("Joe Biden", "The Crown Jewels", 0, 1)
         ));
-        House[] houses = {
-            new House("House on House St"),
-            new House("1600 Pennsylvania Avenue"),
-            new House("1600 City Park Esplanade"),
-            new House("10 Downing St"),
-            new House("202 Garstang St"),
-            new House("Delaware"),
-            new House("89 E 42nd St"),
-            new House("Your house"),
-            new House("Your house"),
-            new House("Your house"),
-            new House("Your house"),
-            new House("Your house"),
-            new House("Your house"),
-            new House("Your house")
-        };
         HauntedHouse ScaryHouse = new HauntedHouse(5, 10, nonPlayerCharacters, "London EC3N 4AB, UK");
 
         Person playerCharacter = Person.newPlayerCharacter();
@@ -40,23 +40,23 @@ public class app {
 
     }
     public static void goTrickOrTreating(Person person, boolean isPlayer) {
-        Scanner scan = new Scanner(System.in);
-
         System.out.println("What time will you go home? (5.5pm-12pm) ");
         double returnTime = Math.max(5.5, Math.min(12, scan.nextDouble()));
         double time = 5;
 
         while (time < returnTime) {
+            ArrayList<Integer> housesGoneTo = new ArrayList<>();
             System.out.println("What do you want to do? You are at "+person.getCurrentHP()+"/"+person.getMaxHP()+" HP.");
             System.out.println("It is "+toTimePM(time));
-            System.out.println("1: trick or treat");
-            System.out.println("2: go to a haunted house");
-            System.out.println("3: eat some candy");
+            System.out.println("1: Trick or treat");
+            System.out.println("2: Go to a haunted house");
+            System.out.println("3: Eat some candy");
+            System.out.println(">");
 
             int choice = scan.nextInt();
 
             if (choice == 1) {
-
+                goToHouse(person, randomHouse(housesGoneTo));
             } else if (choice == 2) {
                 
             } else if (choice == 3) {
@@ -79,6 +79,17 @@ public class app {
 
     public static void goToHouse(Person person, House house) {
         person.trickOrTreat(house.trickOrTreat(), house);
+    }
+    public static House randomHouse(ArrayList<Integer> vistedHouses) {
+        if (vistedHouses.size() >= houses.length) {
+            return new House("The overflow house on Bepis lane");
+        }
+        int randIndex = (int) (Math.random() * houses.length);
+        while (vistedHouses.contains(randIndex)) {
+            randIndex = (int) (Math.random() * houses.length);
+        }
+        vistedHouses.add(randIndex);
+        return houses[randIndex];
     }
 
     public static String toTimePM(double time) {

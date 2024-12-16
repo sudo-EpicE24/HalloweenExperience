@@ -2,7 +2,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
 public class Person {
     private static String[] tricks = {
         "TPed the house", "Politely placed a raw egg on the porch", "Rang the doorbell and left",

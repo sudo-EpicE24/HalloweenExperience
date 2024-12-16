@@ -1,10 +1,6 @@
 
 import java.util.ArrayList;
 
-
-
-
-
 public final class Candy {
     private String name;
     private int healValue;
