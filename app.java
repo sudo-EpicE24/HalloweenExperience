@@ -4,9 +4,8 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class app {
+    public static Scanner scan = new Scanner(System.in);
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-
         ArrayList<Person> nonPlayerCharacters = new ArrayList<>();
         nonPlayerCharacters.addAll(Arrays.asList(
             new Person("Courtney", "Corn being", 0.8, 20),
@@ -39,19 +38,19 @@ public class app {
         playerCharacter.personInfo();
 
     }
-    public static void goTrickOrTreating(Person person, boolean isPlayer) {
-        Scanner scan = new Scanner(System.in);
 
+    public static void goTrickOrTreating(Person person, boolean isPlayer) {
         System.out.println("What time will you go home? (5.5pm-12pm) ");
         double returnTime = Math.max(5.5, Math.min(12, scan.nextDouble()));
         double time = 5;
 
         while (time < returnTime) {
             System.out.println("What do you want to do? You are at "+person.getCurrentHP()+"/"+person.getMaxHP()+" HP.");
-            System.out.println("It is "+toTimePM(time));
+            System.out.println("It is "+toTimePM(time)+". You are going home at "+toTimePM(returnTime));
             System.out.println("1: trick or treat");
             System.out.println("2: go to a haunted house");
             System.out.println("3: eat some candy");
+            System.out.print(">");
 
             int choice = scan.nextInt();
 
@@ -60,7 +59,18 @@ public class app {
             } else if (choice == 2) {
 
             } else if (choice == 3) {
+                System.out.println("What candy do you want to eat? Your options are: ");
+                for (int i = 0; i < Candy.getCandyTypes(); i++) {
+                    if (person.getCandy(i).getCandyCount() > 0) {
+                        System.out.println(i+": "+person.getCandy(i).getCandyCount()+" "+person.getCandy(i).getCandyName());
+                    }
+                }
+                int candyToEat = scan.nextInt();
 
+                System.out.println("How much do you want to eat? ");
+                int amount = scan.nextInt();
+
+                person.eatCandy(candyToEat, amount);
             }
         }
     }
