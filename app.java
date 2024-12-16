@@ -21,6 +21,7 @@ public class app {
         new House("Your house"),
         new House("Your house")
     };
+    public static HauntedHouse ScaryHouse;
 
     public static void main(String[] args) {
         ArrayList<Person> nonPlayerCharacters = new ArrayList<>();
@@ -52,18 +53,19 @@ public class app {
                     ArrayList<Integer> candiesHad = person.hasWhichCandies();
                     if(candiesHad.size() != 0){
                         person.eatCandy(candiesHad.get((int) (Math.random() * candiesHad.size())), 0);
-                        time += 5 / 60.0;
+                        time += 1 / 60.0;
                         continue;
                     }
                 }
 
                if(Math.random() < 0.15){
                 //HAUNTED HOUSE
-                
-
+                ScaryHouse.enterHauntedHouse(person);
+                time += 30 / 60.0;
                }else{
                 //TRICK OR TREAT
                 goToHouse(person, houses[(int) Math.random() * houses.length]);
+                time += 5 / 60.0;
                }
             }
 
