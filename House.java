@@ -1,8 +1,3 @@
-
-
-
-
-
 public class House{
 
     public final static int maxTotalCandy = 300;
@@ -14,7 +9,6 @@ public class House{
     private double generosity;
     private String address;
     private int numOfNonEmptyCandies = 0;
-
 
     public House(){
 
@@ -31,6 +25,7 @@ public class House{
         this.isDecorated = (investmentLevel  > 0.6);
         this.address = "123 Main St.";
     }
+
     public House(String address){
         this();
         this.address = address;
@@ -42,12 +37,55 @@ public class House{
 
     //returns true for treat, false for trick
     public boolean trickOrTreat(){
-        return (this.generosity  > 0.3);
+
+        for(Candy c : candyInventory){
+            if (c.getCandyCount() > 0){
+                return (this.generosity  > 0.3);
+            }
+        }
+
+        return false;
     }
 
-    //lowers generosity value
+    public void printInfo(){
+
+        System.out.println();
+
+        System.out.println("Decorated: " + this.isDecorated);
+        System.out.println("Investment Level: " + this.investmentLevel);
+        System.out.println("Genorosity: " + this.generosity);
+        System.out.println("Adress: " + this.address + "\n");
+
+
+        System.out.println("Candy Inventory:" + "\n");
+
+        int maxCandyNameLength = 0;
+        for(int i = 0; i < candyInventory.length; i++){
+            if(candyInventory[i].getCandyName().length() > maxCandyNameLength){
+                maxCandyNameLength = candyInventory[i].getCandyName().length();
+            }
+        }
+
+        
+        System.out.println("-".repeat((( maxCandyNameLength + 4) * 2) + 2));
+        System.out.println( 
+            "| " + String.format("%-"+( maxCandyNameLength + 2 )+"s","Candy") +
+            "| " + String.format("%-"+( maxCandyNameLength + 2 )+"s","Count") + " |"
+        );
+
+        System.out.println("-".repeat((( maxCandyNameLength + 4) * 2) + 2));
+        for(int i = 0; i < candyInventory.length; i++){
+            System.out.println( 
+                "| " + String.format("%-"+( maxCandyNameLength + 2 )+"s",candyInventory[i].getCandyName()) +
+                "| " + String.format("%-"+( maxCandyNameLength + 2 )+"s",candyInventory[i].getCandyCount()) + " |"
+            );
+        }
+        System.out.println("-".repeat((( maxCandyNameLength + 4) * 2) + 2));
+        System.out.println();
+    }
+
     public void getTricked(){
-        this.generosity += 0.05;
+        this.generosity += 0.25 * Math.random();
     }
 
     public Candy[] giveCandy() {
@@ -63,7 +101,7 @@ public class House{
             list[i].addCandy(amt);
 
         }
-
+        this.generosity -= 0.25 * Math.random();
         return list;
     }
 
