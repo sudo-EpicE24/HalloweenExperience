@@ -35,8 +35,8 @@ public class app {
         new Person("John", "Johns Clothes")
     ));
     public static final HauntedHouse ScaryHouse = new HauntedHouse(5, 10, nonPlayerCharacters, "London EC3N 4AB, UK");
-    public static final double TRICK_OR_TREAT_TIME = 30/60.0;
-    public static final double HAUNTED_HOUSE_TIME = 60/60.0;
+    public static final double TRICK_OR_TREAT_TIME = 15/60.0;
+    public static final double HAUNTED_HOUSE_TIME = 90/60.0;
     public static final double EAT_CANDY_TIME = 5/60.0;
     
     public static void main(String[] args) throws Exception {
@@ -53,15 +53,25 @@ public class app {
                     TimeUnit.SECONDS.sleep(10);
                 }
             }
-
+            
             
             goTrickOrTreating(playerCharacter, true);
             playerCharacter.personInfo();
+            TimeUnit.SECONDS.sleep(10);
             ScaryHouse.acquirePerson(playerCharacter);
-
+            
             System.out.print("Would you like to trick or treat again? (y/n)\n>");
             if (!scan.next().equalsIgnoreCase("y")) {
                 break;
+            }
+            
+            for (House house : houses) {
+                house.printInfo();
+                TimeUnit.SECONDS.sleep(10);
+            }
+            for (Person person : nonPlayerCharacters) {
+                person.personInfo();
+                TimeUnit.SECONDS.sleep(10);
             }
         }
         
@@ -145,6 +155,7 @@ public class app {
             TimeUnit.SECONDS.sleep(1);
             System.out.println();
         }
+        System.out.println("Its "+toTimePM(time)+", time to go home!");
     }
 
 

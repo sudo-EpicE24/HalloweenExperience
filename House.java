@@ -52,9 +52,9 @@ public class House{
         System.out.println();
 
         System.out.println("Decorated: " + this.isDecorated);
-        System.out.println("Investment Level: " + this.investmentLevel);
-        System.out.println("Genorosity: " + this.generosity);
-        System.out.println("Adress: " + this.address + "\n");
+        System.out.println("Investment Level: " + app.toPercent(investmentLevel, 2));
+        System.out.println("Genorosity: " + app.toPercent(investmentLevel, 2));
+        System.out.println("Address: " + this.address + "\n");
 
 
         System.out.println("Candy Inventory:\n");
@@ -74,10 +74,10 @@ public class House{
         );
 
         System.out.println("-".repeat((( maxCandyNameLength + 4) * 2) + 2));
-        for (Candy candyInventory1 : candyInventory) {
+        for (Candy candy : candyInventory) {
             System.out.println(
-                "| " + String.format("%-"+( maxCandyNameLength + 2 )+"s", candyInventory1.getCandyName()) + 
-                "| " + String.format("%-"+( maxCandyNameLength + 2 )+"s", candyInventory1.getCandyCount()) + " |"
+                "| " + String.format("%-"+( maxCandyNameLength + 2 )+"s", candy.getCandyName()) + 
+                "| " + String.format("%-"+( maxCandyNameLength + 2 )+"s", candy.getCandyCount()) + " |"
                 );
         }
         System.out.println("-".repeat((( maxCandyNameLength + 4) * 2) + 2));

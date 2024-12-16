@@ -133,12 +133,13 @@ public class Person {
         System.out.println(name+" received "+candyGiven + " treats from " + address);
 
         treatsReceived++;
-        trickOrTreatList.add(name+" received "+candyGiven + " treats from " + address);
+        trickOrTreatList.add("Received "+candyGiven + " treats from " + address);
     }
 
     public void trick(House house) {
         String trick = tricks[(int) (Math.random()*tricks.length)];
         tricksPerformed++;
+        System.out.println(name+" performed "+trick+" at " + house.getAddress());
 
         trickOrTreatList.add(trick+" at " + house.getAddress());
     }
