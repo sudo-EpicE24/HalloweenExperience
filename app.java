@@ -40,7 +40,7 @@ public class app {
         playerCharacter.personInfo();
 
     }
-    public static void goTrickOrTreating(Person person, boolean isPlayer) {
+    public static void goTrickOrTreating(Person person, boolean isPlayer) throws InterruptedException {
         Scanner scan = new Scanner(System.in);
 
         if(!isPlayer){
@@ -51,7 +51,7 @@ public class app {
                 //EAT CANDY
                 if(person.getCurrentHP() < person.getMaxHP()){
                     ArrayList<Integer> candiesHad = person.hasWhichCandies();
-                    if(candiesHad.size() != 0){
+                    if(!candiesHad.isEmpty()){
                         person.eatCandy(candiesHad.get((int) (Math.random() * candiesHad.size())), 0);
                         time += 1 / 60.0;
                         continue;
@@ -64,7 +64,7 @@ public class app {
                 time += 30 / 60.0;
                }else{
                 //TRICK OR TREAT
-                goToHouse(person, houses[(int) Math.random() * houses.length]);
+                goToHouse(person, houses[(int) (Math.random() * houses.length)]);
                 time += 5 / 60.0;
                }
             }
@@ -91,7 +91,7 @@ public class app {
             if (choice == 1) {
                 goToHouse(person, randomHouse(housesGoneTo));
             } else if (choice == 2) {
-                
+                ScaryHouse.enterHauntedHouse(person);
             } else if (choice == 3) {
                 System.out.println("What candy do you want to eat? Your options are: ");
                 for (int i = 0; i < Candy.getCandyTypes(); i++) {

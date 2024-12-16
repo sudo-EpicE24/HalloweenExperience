@@ -29,6 +29,15 @@ public class Person {
         HP = maxHP;
         candyBag = Candy.generateEmptyCandyList();
     }
+    public Person(String name, String costume) {
+        this();
+        this.name = name;
+        this.costume = costume;
+        scaryValue = Math.random();
+        maxHP = (int) (Math.random() * 100) + 1;
+        HP = maxHP;
+
+    }
     public Person(String name, String costume, double scaryValue, int maxHP) {
         this();
         this.name = name;
