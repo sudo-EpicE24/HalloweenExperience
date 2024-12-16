@@ -76,6 +76,20 @@ public class Person {
     public String getCostume() {
         return costume;
     }
+    public Candy getCandy(int i) {
+        return candyBag[i];
+    }
+
+    public ArrayList<Integer> hasWhichCandies() {
+        ArrayList<Integer> indexes = new ArrayList<>(); 
+        for (int i = 0; i < Candy.getCandyTypes(); i++) {
+            if (candyBag[i].getCandyCount() > 0) {
+                indexes.add(i);
+            }
+        }
+        
+        return indexes;
+    }
 
     public static Person newPlayerCharacter() {
         Scanner scan = new Scanner(System.in);
