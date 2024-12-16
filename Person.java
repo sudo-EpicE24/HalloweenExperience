@@ -125,8 +125,10 @@ public class Person {
     }
     public void eatCandy(int i, int amount) {
         amount = Math.min(amount, candyBag[i].getCandyCount());
-
-        HP = Math.min(HP+(candyBag[i].getCandyHP()*amount), maxHP);
+        int newHP = Math.min(HP+(candyBag[i].getCandyHP()*amount), maxHP);
+        System.out.println("You healed "+(newHP-HP)+" HP");
+        System.out.println("You are now at "+newHP+"/"+maxHP+" HP");
+        HP = newHP;
         candyBag[i].addCandy(-amount);
     }
 
