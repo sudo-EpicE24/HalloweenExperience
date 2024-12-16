@@ -38,12 +38,17 @@ public class app {
         Person playerCharacter = Person.newPlayerCharacter();
         playerCharacter.personInfo();
 
+    }
+    public static void goTrickOrTreating(Person person, boolean isPlayer) {
+        Scanner scan = new Scanner(System.in);
+
         System.out.println("What time will you go home? (5.5pm-12pm) ");
         double returnTime = Math.max(5.5, Math.min(12, scan.nextDouble()));
         double time = 5;
 
         while (time < returnTime) {
-            System.out.println("What do you want to do? It is "+toTimePM(time)+". You have");
+            System.out.println("What do you want to do? You are at "+person.getCurrentHP()+"/"+person.getMaxHP()+" HP.");
+            System.out.println("It is "+toTimePM(time));
             System.out.println("1: trick or treat");
             System.out.println("2: go to a haunted house");
             System.out.println("3: eat some candy");
@@ -58,8 +63,8 @@ public class app {
 
             }
         }
-
     }
+
 
     public static void goToHouse(Person person, House house) {
         person.trickOrTreat(house.trickOrTreat(), house);

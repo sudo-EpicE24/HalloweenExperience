@@ -67,6 +67,9 @@ public class Person {
     public int getCurrentHP() {
         return HP;
     }
+    public int getMaxHP() {
+        return maxHP;
+    }
     public String getName() {
         return name;
     }
