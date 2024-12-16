@@ -100,7 +100,7 @@ public class Person {
         String userCostume = scan.nextLine();
 
         System.out.print("How scary are you on a scale of 0 to 100? ");
-        double userScaryValue = scan.nextInt()/100;
+        double userScaryValue = scan.nextInt()/100.0;
 
         System.out.print("What is your HP? ");
         int userHP = scan.nextInt();

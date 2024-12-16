@@ -22,7 +22,7 @@ public class app {
         new House("Your house")
     };
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         ArrayList<Person> nonPlayerCharacters = new ArrayList<>();
         nonPlayerCharacters.addAll(Arrays.asList(
             new Person("Courtney", "Corn being", 0.8, 20),

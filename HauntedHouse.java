@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class HauntedHouse {
     private final static String[] roomTypes = {
@@ -28,13 +29,16 @@ public class HauntedHouse {
         return address;
     }
 
-    public void enterHauntedHouse(Person person) {
+    public void enterHauntedHouse(Person person) throws InterruptedException {
+        System.out.println(person.getName()+" entered the haunted house at "+address+".");
+        TimeUnit.MILLISECONDS.sleep(500);
         for (int i = 0; i < roomCount && person.getCurrentHP() > 0; i++) {
             int j = i%roomTypes.length;
             Person scaryPerson = scaryPeople.get((int) (Math.random()*scaryPeople.size()));
             String roomEntered = roomTypes[j];
 
             System.out.println(person.getName() + "entered " + roomEntered + " and saw a " + scaryPerson.getCostume());
+            TimeUnit.MILLISECONDS.sleep(500);
             double howScared = person.howScared(scaryPerson.getScaryValue());
             if (howScared > 0) {
                 int damageDone = Math.max(1, (int) Math.round(howScared*scaryValue));
@@ -45,6 +49,7 @@ public class HauntedHouse {
                 System.out.println("They did not get scared and laughed at the actor "+scaryPerson.getName());
                 System.out.println("this made them "+app.toPercent(scaryPerson.getScaryValue()/100, 2)+" scarier");
             }
+            TimeUnit.SECONDS.sleep(1);
         }
     }
 
