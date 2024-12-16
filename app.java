@@ -40,6 +40,37 @@ public class app {
 
     }
     public static void goTrickOrTreating(Person person, boolean isPlayer) {
+        Scanner scan = new Scanner(System.in);
+
+        if(!isPlayer){
+            double time = 5;
+            double returnTime = (Math.round(Math.random() * 10) / 2.0) + 6.5;
+
+            while(time < returnTime){
+                //EAT CANDY
+                if(person.getCurrentHP() < person.getMaxHP()){
+                    ArrayList<Integer> candiesHad = person.hasWhichCandies();
+                    if(candiesHad.size() != 0){
+                        person.eatCandy(candiesHad.get((int) (Math.random() * candiesHad.size())), 0);
+                        time += 5 / 60.0;
+                        continue;
+                    }
+                }
+
+               if(Math.random() < 0.15){
+                //HAUNTED HOUSE
+                
+
+               }else{
+                //TRICK OR TREAT
+                goToHouse(person, houses[(int) Math.random() * houses.length]);
+               }
+            }
+
+            return;
+        }
+        
+
         System.out.println("What time will you go home? (5.5pm-12pm) ");
         double returnTime = Math.max(5.5, Math.min(12, scan.nextDouble()));
         double time = 5;
