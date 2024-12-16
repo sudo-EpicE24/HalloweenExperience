@@ -28,7 +28,7 @@ public class HauntedHouse {
         return address;
     }
 
-    public void enterHouse(Person person) {
+    public void enterHauntedHouse(Person person) {
         for (int i = 0; i < roomCount && person.getCurrentHP() > 0; i++) {
             int j = i%roomTypes.length;
             Person scaryPerson = scaryPeople.get((int) (Math.random()*scaryPeople.size()));
