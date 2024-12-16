@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class Person {
@@ -71,6 +72,24 @@ public class Person {
     }
     public String getCostume() {
         return costume;
+    }
+
+    public static Person newPlayerCharacter() {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.print("What is your name? ");
+        String userName = scan.nextLine();
+
+        System.out.print("What are you dressed as? ");
+        String userCostume = scan.nextLine();
+
+        System.out.print("How scary are you on a scale of 0 to 100? ");
+        double userScaryValue = scan.nextInt()/100;
+
+        System.out.print("What is your HP? ");
+        int userHP = scan.nextInt();
+
+        return new Person(userName, userCostume, userScaryValue, userHP);
     }
 
     public void trickOrTreat(boolean treat, House house) {
